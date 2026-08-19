@@ -146,12 +146,12 @@ async function fetchUser(id, role) {
         } else {
             // Authority (warden, chief-warden, attendant, guard)
             const result = await pool.query(
-                `SELECT id, name, email, role, status, hostel FROM authority WHERE id = $1`,
+                `SELECT id, name, email, status, hostel FROM authority WHERE id = $1`,
                 [id]
             );
             if (result.rows.length === 0) return null;
             const user = result.rows[0];
-            user.role = user.role || user.status || role;
+            user.role = user.status || role;
             return user;
         }
     } catch (err) {
